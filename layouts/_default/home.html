@@ -1,0 +1,23 @@
+{{ define "main" }}
+  {{ if .Site.Params.showHomeContent }}
+    <div class="home-content">
+      {{ .Content }}
+    </div>
+  {{ end }}
+
+  {{ $pages := where site.RegularPages "Type" "blog" }}
+  {{ $paginator := .Paginate $pages.ByDate.Reverse 5 }}
+
+  {{ if .Site.Params.showHomePosts }}
+      <h2>Recent Posts</h2>
+      <div class="home-posts">
+        {{ range $paginator.Pages }}
+          <h4>
+            <a href="{{ .Permalink }}">{{ .Date.Format "2006-01-02" }} {{ .Title }}</a>
+          </h4>
+        {{ end }}
+      </div>
+    {{ partial "pagination.html" . }}
+  {{ end }}
+
+{{ end }}
